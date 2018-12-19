@@ -1,5 +1,5 @@
 <template>
-    <input type="text" v-mask="config" :value="display" @input="onInput" @change="onChange"/>
+    <input type="text" v-mask="config" :value="display" @change="onChange"/>
 </template>
 
 <script>
@@ -51,23 +51,21 @@
             }
         },
         methods: {
-            onInput(e) {
-                console.log('Input');
-                if (e.isTrusted) return ;// ignore native event
-                this.refresh(e.target.value, 'input');
-            },
+            // onInput(e) {
+            //     if (e.isTrusted) return ;// ignore native event
+            //     this.refresh(e.target.value, 'input');
+            // },
             onChange(e) {
-                console.log('change');
                 // if (e.isTrusted) return;
-                this.refresh(e.target.value, 'change')
+                this.refresh(e.target.value)
             },
-            refresh(value, action) {
+            refresh(value) {
                 this.display = value
                 var value = masker(value, this.mask, this.masked, this.tokens)
 
                 if (value !== this.lastValue) {
                     this.lastValue = value
-                    this.$emit(action, value)
+                    this.$emit('change', value)
                 }
             }
         }
